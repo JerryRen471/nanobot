@@ -33,17 +33,21 @@ Then edit `~/.nanobot/config.json` and set a provider key, e.g.:
 }
 ```
 
-If the `OPENROUTER_API_KEY` secret is available in the environment, you can inject it with:
+If the `OPENROUTER_API_KEY` secret is available in the environment, inject it into the config before running the agent:
 
 ```bash
+nanobot onboard  # ensure config exists
 python3 -c "
 import json, os, pathlib
 p = pathlib.Path.home() / '.nanobot' / 'config.json'
 c = json.loads(p.read_text())
 c['providers']['openrouter']['apiKey'] = os.environ['OPENROUTER_API_KEY']
+c['agents']['defaults']['provider'] = 'openrouter'
 p.write_text(json.dumps(c, indent=2))
 "
 ```
+
+You must also set `agents.defaults.model` to a model available on OpenRouter (e.g. `google/gemini-2.0-flash-001`). The key must be a valid OpenRouter key (format: `sk-or-v1-...`, obtained from https://openrouter.ai/keys).
 
 ### Gotchas
 
