@@ -302,6 +302,14 @@ class WebToolsConfig(Base):
     search: WebSearchConfig = Field(default_factory=WebSearchConfig)
 
 
+class CursorToolConfig(Base):
+    """Cursor Cloud Agent API configuration for cursor_agent tool."""
+
+    api_key: str = ""  # Cursor API key from https://cursor.com/settings
+    api_base: str = "https://api.cursor.com"
+    timeout: int = 30  # seconds
+
+
 class ExecToolConfig(Base):
     """Shell exec tool configuration."""
 
@@ -325,6 +333,7 @@ class ToolsConfig(Base):
     """Tools configuration."""
 
     web: WebToolsConfig = Field(default_factory=WebToolsConfig)
+    cursor: CursorToolConfig = Field(default_factory=CursorToolConfig)
     exec: ExecToolConfig = Field(default_factory=ExecToolConfig)
     restrict_to_workspace: bool = False  # If true, restrict all tool access to workspace directory
     mcp_servers: dict[str, MCPServerConfig] = Field(default_factory=dict)
